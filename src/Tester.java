@@ -54,16 +54,17 @@ public class Tester {
 
     private void invokeMethods(){
         try {
-            Experimental experimental = new Experimental();
-            beforeSuiteMethod.invoke(experimental);
+            //Experimental experimental = new Experimental();
+            Object obj = myTestedClass.getDeclaredConstructor().newInstance(null);
+            beforeSuiteMethod.invoke(obj);
             for (Integer priority : myMethods.keySet()) {
                 for (Method method : myMethods.get(priority)) {
                     //System.out.println(Arrays.toString(method.getParameterTypes()));
-                    method.invoke(experimental);
+                    method.invoke(obj);
                 }
             }
-            afterSuiteMethod.invoke(experimental);
-        } catch (IllegalAccessException | InvocationTargetException e) {
+            afterSuiteMethod.invoke(obj);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException e) {
             e.printStackTrace();
         }
 
